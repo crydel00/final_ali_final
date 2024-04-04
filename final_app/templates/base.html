@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static './css/bulma.min.css' %}">
+        <link rel="stylesheet" href="{% static './css/style.css' %}">
+
+</head>
+<body>
+<div class="bag">
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation" >
+        <div class="container2">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url 'homePage' %}">
+                    <h1 class="title has-text-white">Жалобнись!</h1>
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu has-background-info">
+                <div class="navbar-start">
+                </div>
+
+
+            <div class="navbar-end">
+                        {% if user.is_authenticated%}
+                        <div class="navbar-item">
+                        <div class="buttons">
+                            <a href="{% url 'addPost' %}" class="button is-white">
+                                Добавить жалобу
+                            </a>
+                        </div>
+                            {% endif %}
+                    </div>
+                    {% if user.is_authenticated %}
+                  <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                      @{{ user.username }}
+                    </a>
+                    <div class="navbar-dropdown">
+                        {% if user.is_superuser %}
+                      <a class="navbar-item" href="{% url 'admin:index' %}">
+                        Админ панель
+                      </a>
+                        {% endif %}
+                      <a class="navbar-item"  href="{% url 'logout_request' %}">
+                        Выход
+                      </a>
+                    </div>
+                  </div>
+                    {% else %}
+                  <div class="navbar-end">
+                          <div class="buttons2">
+                            <a class="button is rounded is-primary " href="{% url 'sign_up_page' %}" style="background-color: #3498db">
+                                <strong>Регистрация</strong>
+                            </a>
+                             <a class="button is rounded is-light" href="{% url 'login_page' %}">
+                                Вход
+                            </a>
+                          </div>
+                  </div>
+                    {% endif %}
+            </div>
+            </div>
+        </div>
+    </nav>
+
+</div>
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+<footer class="footer" style="background-color: #3498db; color: #ffffff;">
+    <div class="content has-text-centered">
+        <p>
+            &copy; 2024 Камзаев Али. Все права защищены.
+        </p>
+    </div>
+</footer>
+</body>
+</html>

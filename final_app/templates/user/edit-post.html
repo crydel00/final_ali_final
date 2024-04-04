@@ -1,0 +1,86 @@
+{% extends '../base.html' %}
+
+{% block title %}Edit post{% endblock %}
+
+{% block content %}
+<section class="block">
+    <div class="container">
+        <h1 class="title mt-5 mb-5">Редактировать пост</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label" for="id_title">Заголовок:</label>
+                <div class="control">
+                    <input value="{{ post.title }}" type="text" name="title" maxlength="255" required="" id="id_title" class="input">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="id_image">Изображение:</label>
+                <div class="control">
+                    <input type="text" value="{{ post.image }}" name="image" maxlength="500" id="id_image" class="input">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="id_content">Содержание:</label>
+                <div class="control">
+                    <textarea name="content" cols="40" rows="10" required="" id="id_content" class="textarea">{{ post.content }}</textarea>
+                </div>
+            </div>
+            {% if user.is_superuser %}
+            <div class="field">
+                <label class="label" for="id_admin">Ответ админа:</label>
+                <div class="control">
+                    <input value="{{ post.admin_answer }}" type="text" name="admin_answer" maxlength="255" required="" id="id_admin" class="input">
+                </div>
+            </div>
+            {% else %}
+            <div class="field">
+                <div class="control">
+                    <input value="{{ post.admin_answer }}" type="hidden" name="admin_answer" maxlength="255" required="" id="id_admin" class="input">
+                </div>
+            </div>
+            {% endif %}
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-info mt-5">Изменить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .title {
+        text-align: center;
+    }
+
+    .field {
+        margin-bottom: 2rem;
+    }
+
+    .label {
+        font-weight: bold;
+    }
+
+    .button {
+        width: 100%;
+    }
+
+    .input,
+    .textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0.3rem;
+        border: 1px solid #dbdbdb;
+    }
+
+    .textarea {
+        height: 10rem;
+    }
+</style>
+{% endblock %}

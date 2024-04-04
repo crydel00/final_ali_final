@@ -1,0 +1,82 @@
+{% extends '../base.html' %}
+{% block title %}Добавить жалобу{% endblock %}
+
+{% block content %}
+<section class="block">
+    <div class="container">
+        <h1 class="title mt-5 mb-5">Добавить жалобу</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label">Заголовок</label>
+                <div class="control">
+                    <input type="text" name="title" id="id_title" class="input" placeholder="Введите заголовок" required>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Изображение</label>
+                <div class="control">
+                    <input type="text" name="image" id="id_image" class="input" placeholder="Введите URL картинки" required>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Содержание</label>
+                <div class="control">
+                    <textarea name="content" id="id_content" class="textarea" placeholder="Введите содержание" required></textarea>
+                </div>
+            </div>
+            {% if user.is_superuser %}
+             <div class="field">
+                <label class="label" for="id_admin">Ответ админа:</label>
+                <div class="control">
+                    <input value="{{ post.admin_answer }}" type="text" name="admin_answer" maxlength="255" required="" id="id_admin" class="input">
+                </div>
+            </div>
+            {% endif %}
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-info">Добавить</button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'homePage' %}" class="button is-white">Назад</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .title {
+        text-align: center;
+    }
+
+    .field {
+        margin-bottom: 2rem;
+    }
+
+    .label {
+        font-weight: bold;
+    }
+
+    .button {
+        width: 100%;
+    }
+
+    .input,
+    .textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0.3rem;
+        border: 1px solid #dbdbdb;
+    }
+
+    .textarea {
+        height: 10rem;
+    }
+</style>
+{% endblock %}
